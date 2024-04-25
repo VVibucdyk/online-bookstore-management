@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Bookstore Management') }}</title>
+
+        {{-- Style --}}
+        <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -14,8 +17,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/datatables.min.js') }}"></script>
+
         <!-- Styles -->
         @livewireStyles
+
+        <style>
+            div.dt-container select.dt-input{
+                width: 25%;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <x-banner />
