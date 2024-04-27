@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('role_id')->default(2);
-            $table->boolean('is_ban')->default(0);
-            $table->string('banned_at',50)->nullable();
-            $table->string('unbanned_at',50)->nullable();
-            $table->string('last_logged_in')->nullable();
+        Schema::create('genres', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('genres');
     }
 };

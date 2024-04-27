@@ -9,6 +9,7 @@
 
         {{-- Style --}}
         <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -19,6 +20,37 @@
 
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/datatables.min.js') }}"></script>
+        <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
+        
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            function renderWarningMarkup(arrMsg) {
+                let html = 
+                `
+                <div id="hideAlert" class="flex justify-between text-orange-200 shadow-inner rounded p-3 bg-orange-600">
+                    <ul>
+                `
+
+                $.each(arrMsg, function (index, value) { 
+                    html += `<li><strong>*</strong>${value}</li>`
+                });
+
+                html += `
+                    </ul>
+                    <strong class="text-xl align-center cursor-pointer alert-del">&times;</strong>
+                </div>
+                `;
+                return html;
+            }
+
+            $(document).on('click', '.alert-del', function () {
+                $(this).closest('#hideAlert').hide();
+            });
+        </script>
 
         <!-- Styles -->
         @livewireStyles

@@ -16,6 +16,14 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <x-nav-link href="{{ route('manage-book') }}" :active="request()->routeIs('manage-book')">
+                        {{ __('Manage Book') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('manage-transaction') }}" :active="request()->routeIs('manage-transaction')">
+                        {{ __('Manage Transaction') }}
+                    </x-nav-link>
+
                     <x-nav-link href="{{ route('manage-user') }}" :active="request()->routeIs('manage-user')">
                         {{ __('Manage User') }}
                     </x-nav-link>

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RoleController extends Controller
+class GenreController extends Controller
 {
-    function getAllRole() {
+    function getAllGenres() {
         if (Auth::check()) {
-            $items = Role::all();
+            $items = Genre::all();
             return response()->json($items);
         } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
     }
 }

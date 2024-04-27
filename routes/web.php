@@ -28,6 +28,21 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('admin')->group(function () {
-        Route::get('/manage-user', [AdminController::class, 'manageUser'])->name('manage-user');
+        Route::prefix('/manage-user')->group(function () {
+            Route::get('/', [AdminController::class, 'manageUser'])->name('manage-user');
+            Route::get('/getManageUser', [AdminController::class, 'getManageUser'])->name('admin.getManageUser');
+            Route::post('/update-user', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+            Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+        });
+
+        Route::prefix('manage-book')->group(function () {
+            Route::get('/', [AdminController::class, 'manageBook'])->name('manage-book');
+            Route::get('getAllBooks', [AdminController::class, 'getAllBooks'])->name('admin.getAllBooks');
+            Route::post('createBookProcess', [AdminController::class, 'createBook'])->name('admin.createBook');
+            Route::put('updateBookProcess', [AdminController::class, 'editBook'])->name('admin.editBook');
+            Route::delete('deleteBookProcess', [AdminController::class, 'deleteBook'])->name('admin.deleteBook');
+        });
+
+        Route::get('/manage-transaction', [AdminController::class, 'manageUser'])->name('manage-transaction');
     });
 });
