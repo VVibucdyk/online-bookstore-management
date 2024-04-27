@@ -68,7 +68,6 @@ class BookController extends Controller
     }
 
     function editBook(Request $request) {
-        
         if (Auth::check()) {
             $book = Book::find($request->id);
             $validator = Validator::make($request->all(), [
@@ -111,10 +110,10 @@ class BookController extends Controller
             ]);
 
             // Hapus gambar sebelumnya
-            $imageFilename = $book->cover_image;
-            if (file_exists(public_path('imageBooks/' . $imageFilename))) {
-                unlink(public_path('imageBooks/' . $imageFilename));
-            }
+            // $imageFilename = $book->cover_image;
+            // if (file_exists(public_path('imageBooks/' . $imageFilename))) {
+            //     unlink(public_path('imageBooks/' . $imageFilename));
+            // }
     
             return response()->json(['message' => 'Buku berhasil diubah!'], 200);
         } else {

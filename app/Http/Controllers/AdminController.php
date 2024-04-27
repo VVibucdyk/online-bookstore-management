@@ -112,7 +112,7 @@ class AdminController extends Controller
 
     function editBook(Request $request) {
         try {
-            $request = Request::create(route('api.editBook'), 'post', [$request]);
+            $request = Request::create(route('api.editBook'), 'put', [$request]);
             $response = Route::dispatch($request);
             $statusCreate = json_decode($response->getContent(), true);
             $status_code = $response->getStatusCode();

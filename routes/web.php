@@ -39,7 +39,7 @@ Route::middleware([
             Route::get('/', [AdminController::class, 'manageBook'])->name('manage-book');
             Route::get('getAllBooks', [AdminController::class, 'getAllBooks'])->name('admin.getAllBooks');
             Route::post('createBookProcess', [AdminController::class, 'createBook'])->name('admin.createBook');
-            Route::put('updateBookProcess', [AdminController::class, 'editBook'])->name('admin.editBook');
+            Route::post('updateBookProcess', [AdminController::class, 'editBook'])->name('admin.editBook');
             Route::delete('deleteBookProcess', [AdminController::class, 'deleteBook'])->name('admin.deleteBook');
         });
 
