@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,15 +26,24 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        if(Auth::user()->role_id == 1) {
+            return redirect()->route('admin.dashboard');
+        }elseif (Auth::user()->role_id == 2) {
+            return redirect('/');
+        }
     })->name('dashboard');
+    
+    Route::prefix('admin')->middleware('role.prefix:1')->group(function () {
 
-    Route::prefix('admin')->group(function () {
-        Route::prefix('/manage-user')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('admin.dashboard');
+
+        Route::prefix('manage-user')->group(function () {
             Route::get('/', [AdminController::class, 'manageUser'])->name('manage-user');
-            Route::get('/getManageUser', [AdminController::class, 'getManageUser'])->name('admin.getManageUser');
-            Route::post('/update-user', [AdminController::class, 'updateUser'])->name('admin.updateUser');
-            Route::post('/deleteUser', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
+            Route::get('getManageUser', [AdminController::class, 'getManageUser'])->name('admin.getManageUser');
+            Route::post('update-user', [AdminController::class, 'updateUser'])->name('admin.updateUser');
+            Route::post('deleteUser', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
         });
 
         Route::prefix('manage-book')->group(function () {
