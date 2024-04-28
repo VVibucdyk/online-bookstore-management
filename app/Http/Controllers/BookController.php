@@ -11,12 +11,8 @@ use Illuminate\Support\Facades\Validator;
 class BookController extends Controller
 {
     function getAllBooks() {
-        if (Auth::check()) {
-            $items = Book::all();
-            return response()->json($items);
-        } else {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        $items = Book::all();
+        return response()->json($items);
     }
 
     function createBook(Request $request) {

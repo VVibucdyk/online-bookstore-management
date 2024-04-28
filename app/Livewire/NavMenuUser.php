@@ -15,7 +15,9 @@ class NavMenuUser extends Component
     public function mount()
     {
         // Your code here
-        $this->getCounter();
+        if(Auth::check()) {
+            $this->getCounter();
+        }
     }
 
     public function counterUpdated($data)
