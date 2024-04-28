@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderTransactionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,12 @@ Route::middleware([
     Route::get('/cart-menu', function () {
         return view('cart-menu');
     })->name('cart-menu');
+
+    Route::get('/order-menu', function () {
+        return view('order-menu');
+    })->name('order-menu');
+
+    Route::post('create-order', [OrderTransactionController::class, 'createOrderWeb'])->name('create-order');
     
     Route::prefix('admin')->middleware('role.prefix:1')->group(function () {
 

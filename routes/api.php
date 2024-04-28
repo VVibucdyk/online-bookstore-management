@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartUserController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\OrderTransactionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Models\CartUser;
@@ -25,14 +26,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-     
+     // ENDPOINT API BERHUBUNGAN DENGAN USER
+    Route::get('get-all-user', [UserController::class, 'getAllUser'])->name('api.getAllUser');
+    Route::get('get-user-customer', [UserController::class, 'getUserCustomer'])->name('api.getUserCustomer');
+    Route::put('update-role', [UserController::class, 'updateRole'])->name('api.updateUserRole');
+    Route::delete('delete-user', [UserController::class, 'deleteUser'])->name('api.deleteUser');
 });
-
-// ENDPOINT API BERHUBUNGAN DENGAN USER
-Route::get('get-all-user', [UserController::class, 'getAllUser'])->name('api.getAllUser');
-Route::get('get-user-customer', [UserController::class, 'getUserCustomer'])->name('api.getUserCustomer');
-Route::put('update-role', [UserController::class, 'updateRole'])->name('api.updateUserRole');
-Route::delete('delete-user', [UserController::class, 'deleteUser'])->name('api.deleteUser');
 
 // ENDPOINT API BERHUBUNGAN DENGAN ROLE
 Route::get('get-all-role', [RoleController::class, 'getAllRole'])->name('api.getAllRole');
@@ -53,3 +52,6 @@ Route::get('get-cart-item/{user_id}', [CartUserController::class, 'getListCartIt
 Route::post('insert-cart/{user_id}/{book_id}', [CartUserController::class, 'insertCart'])->name('api.insertCart');
 Route::post('decrease-cart/{user_id}/{book_id}', [CartUserController::class, 'decreaseCart'])->name('api.decreaseCart');
 Route::post('remove-cart/{user_id}/{book_id}', [CartUserController::class, 'removeCart'])->name('api.removeCart');
+
+// ENDPOINT API BERHUBUNGAN DENGAN ORDER TRANSACTION
+Route::post('create-order', [OrderTransactionController::class, 'createOrder'])->name('api.createOrder');

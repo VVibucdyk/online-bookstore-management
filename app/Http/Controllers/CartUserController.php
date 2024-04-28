@@ -11,7 +11,8 @@ class CartUserController extends Controller
 {
     function getCountUserCart($id = null){
         if (Auth::check()) {
-            $items = CartUser::select('user_id', DB::raw('SUM(quantity) as total_quantity'))
+            $items = CartUser::where('user_id', $id)->where('is_success_cart', false)
+            ->select('user_id', DB::raw('SUM(quantity) as total_quantity'))
             ->groupBy('user_id')
             ->first();
             

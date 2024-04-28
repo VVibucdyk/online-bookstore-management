@@ -96,7 +96,7 @@
                         <input name="author" type="text"
                             class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
-                        <label for="genre_id" class="font-medium text-gray-800">Genre</label>
+                        <label for="genre_id" class="font-medium text-gray-800">Genre (pisahkan dengan ',')</label>
                         <div id="genre_idErrorCreate"></div>
                         <input name="genre_id" type="text"
                             class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
@@ -116,7 +116,7 @@
                         <input name="publisher" type="text"
                             class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
-                        <label for="publication_year" class="font-medium text-gray-800">Tahun Publish</label>
+                        <label for="publication_year" class="font-medium text-gray-800">Tahun Publish (yyyy)</label>
                         <div id="publication_yearErrorCreate"></div>
                         <input name="publication_year" type="number" min="1900" max="{{ date('Y') }}"
                             step="1" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
