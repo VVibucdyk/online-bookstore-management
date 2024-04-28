@@ -65,7 +65,12 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+
+            @if (Auth::user()->role_id == 1) 
+                @livewire('navigation-menu')
+            @else
+                @livewire('nav-menu-user')
+            @endif
 
             <!-- Page Heading -->
             @if (isset($header))

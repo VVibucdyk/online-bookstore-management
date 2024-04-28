@@ -17,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $request = Request::create(route('api.getAllBooks'), 'GET');
+    $response = Route::dispatch($request);
+    $respponseBody = json_decode($response->getContent(), true);
+    
+    return view('welcome', ['books' => $respponseBody]);
 });
 
 Route::middleware([

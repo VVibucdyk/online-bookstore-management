@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CartUserController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Models\CartUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +46,7 @@ Route::delete('delete-book', [BookController::class, 'deleteBook'])->name('api.d
 
 // ENDPOINT API BERHUBUNGAN DENGAN GENRE
 Route::get('get-all-genres', [GenreController::class, 'getAllGenres'])->name('api.getAllGenres');
+
+// ENDPOINT API BERHUBUNGAN DENGAN CART
+Route::get('get-cart/{user_id}', [CartUserController::class, 'getCountUserCart'])->name('api.getCountUserCart');
+Route::post('insert-cart/{user_id}/{book_id}', [CartUserController::class, 'insertCart'])->name('api.insertCart');
