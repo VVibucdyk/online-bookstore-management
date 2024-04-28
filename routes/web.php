@@ -36,6 +36,10 @@ Route::middleware([
             return redirect('/');
         }
     })->name('dashboard');
+
+    Route::get('/cart-menu', function () {
+        return view('cart-menu');
+    })->name('cart-menu');
     
     Route::prefix('admin')->middleware('role.prefix:1')->group(function () {
 

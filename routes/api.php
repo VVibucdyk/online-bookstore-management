@@ -49,4 +49,7 @@ Route::get('get-all-genres', [GenreController::class, 'getAllGenres'])->name('ap
 
 // ENDPOINT API BERHUBUNGAN DENGAN CART
 Route::get('get-cart/{user_id}', [CartUserController::class, 'getCountUserCart'])->name('api.getCountUserCart');
+Route::get('get-cart-item/{user_id}', [CartUserController::class, 'getListCartItem'])->name('api.getListCartItem');
 Route::post('insert-cart/{user_id}/{book_id}', [CartUserController::class, 'insertCart'])->name('api.insertCart');
+Route::post('decrease-cart/{user_id}/{book_id}', [CartUserController::class, 'decreaseCart'])->name('api.decreaseCart');
+Route::post('remove-cart/{user_id}/{book_id}', [CartUserController::class, 'removeCart'])->name('api.removeCart');
