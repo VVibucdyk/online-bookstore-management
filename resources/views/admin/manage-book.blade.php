@@ -198,6 +198,7 @@
                                             </div>
                                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-scroll" style="max-height: 550px">
                                                 <form class="editForm" action="#" enctype="multipart/form-data">
+                                                    <input type="hidden" name="id" value="${element.id}">
 
                                                     <div class="relative flex items-center justify-center w-full mb-4">
                                                         <img class="object-cover w-2/4 rounded-md" src="{{asset('imageBooks')}}/${element.cover_image}">
@@ -206,12 +207,12 @@
                                                     <div class="upload-container relative flex items-center justify-between w-full mb-4">
                                                         <div
                                                             class="drop-area w-full rounded-md border-2 border-dotted border-gray-200 transition-all hover:border-blue-600/30 text-center">
-                                                            <div class="cover_imageError"></div>
+                                                            <div class="cover_imageError${element.id}"></div>
                                                             <label for="edit_cover_image${element.id}"
                                                                 class="block w-full h-full text-gray-500 p-4 text-sm cursor-pointer">
                                                                 Klik atau taruh sini untuk upload cover gambar
                                                             </label>
-                                                            <input name="edit_cover_image" id="edit_cover_image${element.id}" type="file" class="file-input hidden" accept="image/*" />
+                                                            <input name="cover_image" id="edit_cover_image${element.id}" type="file" class="file-input hidden" accept="image/*" />
                                                             <!-- Image upload input -->
                                                             <div class="preview-container hidden items-center justify-center flex-col">
                                                                 <div class="preview-image w-36 h-36 bg-cover bg-center rounded-md" style="background-image:url('{{ asset('imageBooks') }}/${element.cover_image}')"></div>
@@ -224,39 +225,39 @@
                                                     </div>
 
                                                     <label for="title" class="font-medium text-gray-800">Judul Buku</label>
-                                                    <div class="titleError"></div>
+                                                    <div class="titleError${element.id}"></div>
                                                     <input value="${element.title}" name="title" type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="author" class="font-medium text-gray-800">Author</label>
-                                                    <div class="authorError"></div>
+                                                    <div class="authorError${element.id}"></div>
                                                     <input value="${element.author}" name="author" type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="genre_id" class="font-medium text-gray-800">Genre</label>
-                                                    <div class="genre_idError"></div>
+                                                    <div class="genre_idError${element.id}"></div>
                                                     <input value="${element.genre_id}" name="genre_id" type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="description" class="font-medium text-gray-800">Sinopsis</label>
-                                                    <div class="descriptionError"></div>
-                                                    <textarea value="${element.description}" name="description" id="" cols="30" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" rows="10"></textarea>
+                                                    <div class="descriptionError${element.id}"></div>
+                                                    <textarea value="" name="description" id="" cols="30" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" rows="10">${element.description}</textarea>
 
                                                     <label for="isbn" class="font-medium text-gray-800">ISBN</label>
-                                                    <div class="isbnError"></div>
+                                                    <div class="isbnError${element.id}"></div>
                                                     <input value="${element.isbn}" name="isbn" type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="publisher" class="font-medium text-gray-800">Publisher</label>
-                                                    <div class="publisherError"></div>
+                                                    <div class="publisherError${element.id}"></div>
                                                     <input value="${element.publisher}" name="publisher" type="text" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="publication_year" class="font-medium text-gray-800">Tahun Publish</label>
-                                                    <div class="publication_yearError"></div>
+                                                    <div class="publication_yearError${element.id}"></div>
                                                     <input value="${element.publication_year}" name="publication_year" type="number" min="1900" max="{{ date('Y') }}" step="1" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
                                                     
                                                     <label for="price" class="font-medium text-gray-800">Harga</label>
-                                                    <div class="priceError"></div>
-                                                    <input value="${element.price}" name="price" type="number" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
+                                                    <div class="priceError${element.id}"></div>
+                                                    <input value="${parseInt(element.price)}" name="price" type="number" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
 
                                                     <label for="quantity" class="font-medium text-gray-800">Quantity</label>
-                                                    <div class="quantityError"></div>
+                                                    <div class="quantityError${element.id}"></div>
                                                     <input value="${element.quantity}" name="quantity" type="number" class="w-full outline-none rounded bg-gray-100 p-2 mt-2 mb-3" />
                                                 </form>
                                             </div>
@@ -264,19 +265,22 @@
                                                 <button type="button" data-id="edit-book${element.id}"
                                                     class="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-700 mr-2"
                                                     onclick="toggleModal(this)"><i class="fas fa-times"></i> Cancel</button>
-                                                <button data-id="edit-book${element.id}" id="editBtnBook" type="button"
+                                                <button data-id="edit-book${element.id}" id="editBtnBook" type="button" data-real_id=${element.id}
                                                     class="py-2 px-4 bg-green-500 text-white rounded font-medium hover:bg-green-700 mr-2 transition duration-500"><i
                                                         class="fas fa-plus"></i> Edit</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                             `
                             no++;
                         });
                         $("#initTbodyBook").html(html)
                         $("#initModalEdit").html(htmlModal)
-                        $('#book-manage-table').DataTable();
+                        $('#book-manage-table').DataTable({
+                            responsive:true
+                        });
                     } else {
                         Swal.fire({
                             icon: "error",
@@ -381,6 +385,7 @@
 
                         $(`#${id}`).toggleClass('hidden')
                         init()
+                        $('#bookForm')[0].reset();
                     },
                     error: function(xhr, status, error) {
                         Swal.fire({
@@ -401,6 +406,7 @@
 
             $(document).on('click', `#editBtnBook`, function() {
                 let id = $(this).attr('data-id')
+                var real_id =  $(this).attr('data-real_id')
                 let parentX = $(this).closest('.edit-book');
                 var childZ = parentX.find('.editForm');
                 let formData = new FormData(childZ[0]);
@@ -432,8 +438,7 @@
                         let errText = "";
                         $.each(errors, function(key, value) {
                             errText = renderWarningMarkup(value)
-                            $(childZ).find('#' + key + 'Error').html(errText);
-                            // $('#' + key + 'Error').html(errText);
+                            $('.' + key + 'Error'+real_id).html(errText);
                         });
                     }
                 });

@@ -69,13 +69,13 @@ class BookController extends Controller
 
     function editBook(Request $request) {
         if (Auth::check()) {
-            $book = Book::find($request->id);
+            $data = Book::findOrFail($request->id);
             $validator = Validator::make($request->all(), [
                 // 'genre_id' => 'required|exists:genres,id',
                 'genre_id' => 'required',
                 'title' => 'required|string|max:255',
                 'author' => 'required|string|max:255',
-                'isbn' => 'required|unique:books,isbn|string|max:255',
+                'isbn' => 'required|string|max:255',
                 'publisher' => 'required|string|max:255',
                 'publication_year' => 'required|integer|min:4|max:' . date('Y'),
                 'description' => 'nullable|string',
@@ -87,16 +87,23 @@ class BookController extends Controller
             if ($validator->fails()) {
                 return response()->json(['message' => $validator->errors()], 422);
             }
+
             if ($request->hasFile('cover_image')) {
                 $coverImage = $request->file('cover_image');
                 $imageName = time() . '_' . $coverImage->getClientOriginalName();
                 $coverImage->move(public_path(env('IMAGE_BOOKS_PATH')), $imageName);
             } else {
-                $imageName = null;
+                if(($data->cover_image !== null)) {
+                    $imageName = $data->cover_image;
+                }else{
+                    $imageName = null;
+                }
             }
+
+
             
-            Book::where('id', $book->id)
-            ->create([
+            Book::where('id', $request->id)
+            ->update([
                 'genre_id' => $request->genre_id,
                 'title' => $request->title,
                 'author' => $request->author,
@@ -108,6 +115,7 @@ class BookController extends Controller
                 'quantity' => $request->quantity,
                 'cover_image' => $imageName,
             ]);
+
 
             // Hapus gambar sebelumnya
             // $imageFilename = $book->cover_image;
@@ -130,8 +138,7 @@ class BookController extends Controller
             
             $book->delete();
             $imageFilename = $book->cover_image;
-            
-            if (file_exists(public_path('imageBooks/' . $imageFilename))) {
+            if (file_exists(public_path('imageBooks/' . $imageFilename)) && $imageFilename !== null) {
                 unlink(public_path('imageBooks/' . $imageFilename));
             }
             return response()->json(['message' => 'Buku berhasil dihapus!']);
