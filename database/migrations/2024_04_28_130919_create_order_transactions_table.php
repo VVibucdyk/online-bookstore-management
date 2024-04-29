@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_transactions', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id')->nullable();
             $table->string('transaction_id')->unique();
             $table->dateTime('transaction_date')->default(date(now()));
             $table->decimal('amount', 10, 2);

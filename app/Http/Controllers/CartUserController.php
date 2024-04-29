@@ -30,14 +30,14 @@ class CartUserController extends Controller
 
     function insertCart($user_id = null, $book_id = null) {
         if (Auth::check()) {
-            $dataCart = CartUser::where('user_id', $user_id)->where('book_id',$book_id)->first();
+            $dataCart = CartUser::where('user_id', $user_id)->where('book_id',$book_id)->where('is_success_cart', false)->first();
             if(empty($dataCart)) {
                 CartUser::create([
                     'user_id' => $user_id,
                     'book_id' => $book_id,
                 ]);
             }else{
-                CartUser::where('user_id', $user_id)->where('book_id',$book_id)
+                CartUser::where('user_id', $user_id)->where('book_id',$book_id)->where('is_success_cart', false)
                 ->update([
                     'quantity' => $dataCart->quantity + 1,
                 ]);
@@ -51,14 +51,14 @@ class CartUserController extends Controller
 
     function decreaseCart($user_id = null, $book_id = null) {
         if (Auth::check()) {
-            $dataCart = CartUser::where('user_id', $user_id)->where('book_id',$book_id)->first();
+            $dataCart = CartUser::where('user_id', $user_id)->where('book_id',$book_id)->where('is_success_cart', false)->first();
             if(empty($dataCart)) {
                 CartUser::create([
                     'user_id' => $user_id,
                     'book_id' => $book_id,
                 ]);
             }else{
-                CartUser::where('user_id', $user_id)->where('book_id',$book_id)
+                CartUser::where('user_id', $user_id)->where('book_id',$book_id)->where('is_success_cart', false)
                 ->update([
                     'quantity' => $dataCart->quantity - 1,
                 ]);

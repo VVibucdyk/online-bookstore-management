@@ -1,7 +1,7 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            {{-- <x-authentication-card-logo /> --}}
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -17,6 +17,7 @@
         <x-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('password.email') }}">
+            <img src="{{asset('img/logo.png')}}" alt="">
             @csrf
 
             <div class="block">

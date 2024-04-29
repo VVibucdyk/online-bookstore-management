@@ -18,6 +18,7 @@ class OrderTransactionController extends Controller
             $transactionId = 'BACA_' . $timestamp . '_' . $random;
 
             OrderTransaction::create([
+                'user_id' => $request->user_id,
                 'transaction_id' => $transactionId,
                 'amount' => $request->total,
             ]);
@@ -44,5 +45,14 @@ class OrderTransactionController extends Controller
         $respponseBody = json_decode($response->getContent(), true);
         $status_code = $response->getStatusCode();
         return response()->json(['message' => $respponseBody['message']], $status_code);
+    }
+
+    function getListOrderTransaction($user_id){
+        if (Auth::check()) {
+            $data = OrderTransaction::where('user_id', $user_id)->get();
+            return response()->json(['message' => 'Order berhasil dibuat!', 'data_order' => $data], 200);
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
     }
 }

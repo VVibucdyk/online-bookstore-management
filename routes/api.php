@@ -55,3 +55,4 @@ Route::post('remove-cart/{user_id}/{book_id}', [CartUserController::class, 'remo
 
 // ENDPOINT API BERHUBUNGAN DENGAN ORDER TRANSACTION
 Route::post('create-order', [OrderTransactionController::class, 'createOrder'])->name('api.createOrder');
+Route::get('get-list-order/${user_id}', [OrderTransactionController::class, 'getListOrderTransaction'])->name('api.getListOrderTransaction');
