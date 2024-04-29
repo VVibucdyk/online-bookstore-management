@@ -10,8 +10,25 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
-    function getAllBooks() {
-        $items = Book::all();
+    function getAllBooks($search = null) {
+        $books = Book::query();
+
+        // Apply keyword search filter
+        if ($search) {
+            $books->where('title', 'like', '%' . $search . '%');
+        }
+        $items = $books->get();
+        return response()->json($items);
+    }
+
+    function webGetAllBooks($search = null) {
+        $books = Book::query();
+
+        // Apply keyword search filter
+        if ($search) {
+            $books->where('title', 'like', '%' . $search . '%');
+        }
+        $items = $books->get();
         return response()->json($items);
     }
 

@@ -52,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // ENDPOINT API BERHUBUNGAN DENGAN BOOK
-Route::get('get-all-book', [BookController::class, 'getAllBooks'])->name('api.getAllBooks');
+Route::get('get-all-book/{search?}', [BookController::class, 'getAllBooks'])->name('api.getAllBooks');
 
 
 // ENDPOINT API BERHUBUNGAN DENGAN GENRE

@@ -10,6 +10,7 @@ class BookLoopCard extends Component
 {
     public $books;
     public $counterValue = 0;
+    protected $listeners = ['searchBooksResult'];
 
     function addToCart($id = null, $book_id = null) {
         $request = Request::create(route('api.insertCart', ['user_id'=>$id, 'book_id'=>$book_id]), 'post');
@@ -20,9 +21,12 @@ class BookLoopCard extends Component
         $response = Route::dispatch($request);
         $respponseBody = json_decode($response->getContent(), true);
 
-
-        // $this->emit('updateBubleBadge', $respponseBody);
         $this->dispatch('counterUpdated', $respponseBody);
+    }
+
+    public function searchBooksResult($data)
+    {
+        $this->books = $data['books'];
     }
 
     public function render()
