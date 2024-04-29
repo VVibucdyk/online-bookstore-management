@@ -6,6 +6,7 @@ use App\Models\CartUser;
 use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -17,20 +18,29 @@ class OrderTransactionController extends Controller
             $random = Str::random(8);
             $transactionId = 'BACA_' . $timestamp . '_' . $random;
 
-            OrderTransaction::create([
-                'user_id' => $request->user_id,
-                'transaction_id' => $transactionId,
-                'amount' => $request->total,
-            ]);
-
-            CartUser::where('user_id', $request->user_id)->where('is_success_cart', false)
-            ->update([
-                'date_success_cart' => date(now()),
-                'transaction_id' => $transactionId,
-                'is_success_cart' => true
-            ]);
+            DB::beginTransaction();
+            
+            try {
+                OrderTransaction::create([
+                    'user_id' => $request->user_id,
+                    'transaction_id' => $transactionId,
+                    'amount' => $request->total,
+                ]);
     
-            return response()->json(['message' => 'Order berhasil dibuat!'], 200);
+                CartUser::where('user_id', $request->user_id)->where('is_success_cart', false)
+                ->update([
+                    'date_success_cart' => date(now()),
+                    'transaction_id' => $transactionId,
+                    'is_success_cart' => true
+                ]);
+
+                DB::commit();
+        
+                return response()->json(['message' => 'Order berhasil dibuat!'], 200);
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return response()->json(['message' => $th->getMessage()], 200);
+            }
         } else {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
