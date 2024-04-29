@@ -33,6 +33,7 @@
                             <p class="mt-1 text-xs text-gray-700">ISBN : {{ $item['isbn'] }}</p>
                             <p class="mt-1 text-xs text-gray-700">Publisher : {{ $item['publisher'] }}</p>
                             <p class="mt-1 text-xs text-gray-700">Harga : Rp.{{ (int)$item['price'] }}</p>
+                            <p class="mt-1 text-xs text-gray-700">Stok : {{ (int)$item['book_quantity'] }}</p>
                         </div>
                         <div class="mt-4 flex justify-between items-center im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                             <div class="flex items-center border-gray-100">
@@ -105,10 +106,11 @@
                             window.location.href = "{{ route('order-menu') }}";
                         },
                         error:function (xhr, status, error) { 
+                            var errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Coba lagi beberapa saat';
                             Swal.fire({
                                 icon: "error",
                                 title: "Oops...",
-                                text: "Coba lagi beberapa saat"
+                                text: errorMessage
                             });
                         }
                     });

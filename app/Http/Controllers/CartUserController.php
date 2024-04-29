@@ -86,7 +86,7 @@ class CartUserController extends Controller
     function getListCartItem() {
         if (Auth::check()) {
             $items = CartUser::join('books','books.id', 'cart_users.book_id')
-            ->select('books.title','books.cover_image', 'books.price','books.isbn', 'books.publisher', 'cart_users.quantity', 'books.id as book_id')
+            ->select('books.title','books.cover_image', 'books.price','books.isbn', 'books.publisher', 'cart_users.quantity', 'books.quantity as book_quantity', 'books.id as book_id')
             ->where('user_id', Auth::user()->id)
             ->where('is_success_cart', false)->get();
 

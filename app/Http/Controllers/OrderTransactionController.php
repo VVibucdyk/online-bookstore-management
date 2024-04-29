@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\CartUser;
 use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
@@ -21,6 +22,24 @@ class OrderTransactionController extends Controller
             DB::beginTransaction();
             
             try {
+
+                $dataCart = CartUser::select('book_id', 'cart_users.quantity as quantity')
+                ->where('user_id', $request->user_id)->where('is_success_cart', false)->get();
+
+                foreach ($dataCart as $key => $value) {
+                    // Cek apakah stok cukup atau tidak
+                    $book = Book::find($value->book_id);
+
+                    if (!$book || $book->quantity < $value->quantity) {
+                        DB::rollback();
+                        return response()->json(['message' => 'Produk/stok tidak tersedia!'], 400);
+                    }
+
+                    // kurangi quantity jika mencukupi
+                    $book->quantity -= $value->quantity;
+                    $book->save();
+                }
+
                 OrderTransaction::create([
                     'user_id' => $request->user_id,
                     'transaction_id' => $transactionId,
@@ -39,7 +58,7 @@ class OrderTransactionController extends Controller
                 return response()->json(['message' => 'Order berhasil dibuat!'], 200);
             } catch (\Throwable $th) {
                 DB::rollback();
-                return response()->json(['message' => $th->getMessage()], 200);
+                return response()->json(['message' => $th->getMessage()], 502);
             }
         } else {
             return response()->json(['message' => 'Unauthorized'], 401);
